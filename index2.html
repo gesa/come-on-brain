@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Digit Span Challenge</title>
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description" content="Test how many digits you can remember in your short-term memory.">
+
+  <link href="bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    .progress-bar {
+      min-height: 5px;
+    }
+
+    audio.audio-preload {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+<main class="container-lg">
+  <header class="row">
+    <div class="col">
+      <h1>Digit Span Challenge</h1>
+    </div>
+  </header>
+
+  <div class="row">
+    <div class="col-md-7 mb-3">
+      <div class="row justify-content-end mb-3">
+        <div class="col mb-5 mb-md-0">
+          <p class="h2 text-center m-3" id="current-digit-container">
+            <span id="current-digit">#</span>
+          </p>
+          <div class="form-floating">
+            <input type="number" class="form-control text-center" id="digit-input" />
+            <label for="digit-input" id="digit-input-label">• • • •</label>
+          </div>
+        </div>
+        <div class="vstack justify-content-end gap-2 col-md-1">
+          <button type="button" id="start-button" class="btn btn-primary">
+            Start
+          </button>
+          <button type="button" id="retry-button" class="btn btn-secondary" disabled>
+            Retry
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="alert alert-info mb-0">
+            <p class="mb-0" id="info-output"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 col-lg-3">
+      <div class="alert alert-secondary">
+        <p class="lead">Current challenge: <span id="current-digits">#</span>
+        </p>
+        <p class="lead">Top this session: <span id="top-digits">#</span></p>
+      </div>
+    </div>
+  </div>
+  <hr class="d-none d-md-block">
+  <div class="row">
+    <div class="col">
+      <details>
+        <summary>Settings</summary>
+        <div class="row mt-3">
+          <div class="col-md-6">
+            <div class="form-group">
+              <select name="test-mode" id="test-mode" class="form-select mb-3" aria-label="Test mode">
+                <option value="default" selected>Forward (default)</option>
+                <option value="reversed">Reversed</option>
+                <option value="ordered">Ordered</option>
+              </select>
+              <div class="alert alert-primary" id="info-test-mode">
+                <p>
+                  Depending on the selected mode, the target order, i.e. the order in which the digits must be entered, changes:
+                </p>
+                <ul>
+                  <li>
+                    <b>Forward (default)</b> requires the digits to be entered in the order in which they were shown.
+                  </li>
+                  <li>
+                    <b>Reversed</b> is the opposite of forward, e.g. "1532" should be entered as "2351".
+                  </li>
+                  <li>
+                    <b>Ordered</b> is the numbers in ascending order, e.g. "1532" becomes "1235".
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group mb-3">
+              <div class="form-check form-check-inline">
+                <input id="audio-enabled" class="form-check-input" type="checkbox" checked="checked">
+                <label class="form-check-label" for="audio-enabled">
+                  Sound enabled
+                </label>
+              </div>
+
+              <div class="form-check form-check-inline">
+                <input id="visual-enabled" class="form-check-input" type="checkbox" checked="checked">
+                <label for="visual-enabled" class="form-check-label">Visual enabled</label>
+              </div>
+            </div>
+            <div class="form-group mb-3">
+              <label for="speed-millis">Speed (milliseconds per digit)</label>
+              <div class="input-group">
+                <input id="speed-millis" type="number" class="form-control" min="1" step="100" placeholder="1000" value="1000">
+                <span class="input-group-text">ms</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="starting-length">Starting sequence length</label>
+              <div class="input-group">
+                <input id="starting-length" type="number" min="1" step="1" class="form-control" placeholder="4" value="4">
+                <span class="input-group-text">digits</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</main>
+</body>
+</html>

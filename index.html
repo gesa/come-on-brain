@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description" content="Test how many digits you can remember in your short-term memory.">
+
+  <title>Digit span test</title>
+
+  <link href="bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    .progress-bar {
+      min-height: 5px;
+    }
+
+    audio.audio-preload {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+<main id="main" class="container-lg">
+  <header class="row">
+    <h1>Digit span test</h1>
+    <p class="lead">Test how many digits you can remember in your short-term
+      memory.</p>
+  </header>
+
+  <div class="row">
+    <div class="col">
+      <p class="alert alert-primary" id="info-output">Hit start to run the digit
+        span test.</p>
+      <h2 id="sequence-preview" class="text-center">&nbsp;</h2>
+
+      <div id="primary-progress-bar" class="progress-bar bg-info mb-1"></div>
+
+      <input id="primary-input" type="number" class="form-control text-center" disabled="disabled">
+      <label for="primary-input">enter digits</label>
+
+      <p id="sequence-length" class="text-center lead">&nbsp;</p>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="form-group text-center">
+        <button id="primary-btn" type="button" class="btn btn-primary btn-lg" disabled="disabled">
+          Start
+        </button>
+        <button id="repeat-btn" type="button" class="btn btn-default btn-lg" disabled="disabled">
+          Repeat
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <h4>Settings</h4>
+    <div class="col">
+
+      <div class="form-group mb-3">
+        <label for="test-mode">Test mode</label>
+        <select name="test-mode" id="test-mode" class="form-select">
+          <option value="default" selected>Forward (default)</option>
+          <option value="reversed">Reversed</option>
+          <option value="ordered">Ordered</option>
+        </select>
+      </div>
+
+      <div class="alert alert-primary" id="info-test-mode">
+        <p>Depending on the selected mode, the target order, i.e. the order in
+          which
+          the digits must be entered, changes:</p>
+        <ul>
+          <li><b>Forward (default)</b> requires the digits to be entered in the
+            order in which they were shown.
+          </li>
+          <li><b>Reversed</b> is the opposite of forward, e.g. "1532" should be
+            entered as "2351".
+          </li>
+          <li><b>Ordered</b> is the numbers in ascending order, e.g. "1532"
+            becomes
+            "1235".
+          </li>
+        </ul>
+      </div>
+
+    </div>
+    <div class="col-sm">
+      <div class="form-group mb-3">
+        <div class="form-check form-check-inline">
+          <input id="audio-enabled" class="form-check-input" type="checkbox" checked="checked">
+          <label class="form-check-label" for="audio-enabled">
+            Sound enabled
+          </label>
+        </div>
+
+        <div class="form-check form-check-inline">
+          <input id="visual-enabled" class="form-check-input" type="checkbox" checked="checked">
+          <label for="visual-enabled" class="form-check-label">Visual
+            enabled</label>
+        </div>
+      </div>
+      <div class="form-group mb-3">
+        <label for="speed-millis">Speed (milliseconds per digit)</label>
+        <div class="input-group">
+          <input id="speed-millis" type="number" class="form-control" min="1" step="100" placeholder="1000" value="1000">
+          <span class="input-group-text">ms</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="starting-length">Starting sequence length</label>
+        <div class="input-group">
+          <input id="starting-length" type="number" min="1" step="1" class="form-control" placeholder="4" value="4">
+          <span class="input-group-text">digits</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script src="logic/digit-span-test.js"></script>
+<script src="adapter/digit-span-test.js"></script>
+</body>
+</html>
