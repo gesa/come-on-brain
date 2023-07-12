@@ -37,8 +37,9 @@
             <span id="current-digit">#</span>
           </p>
           <div class="form-floating">
-            <input type="number" class="form-control text-center" id="digit-input" />
-            <label for="digit-input" id="digit-input-label">• • • •</label>
+            <div id="primary-progress-bar" class="progress-bar bg-info mb-1"></div>
+            <input type="number" class="form-control text-center" id="primary-input" placeholder="• • • •" />
+            <label for="primary-input" id="digit-input-label">• • • •</label>
           </div>
         </div>
         <div class="vstack justify-content-end gap-2 col-md-1">
@@ -60,9 +61,10 @@
     </div>
     <div class="col-md-4 col-lg-3">
       <div class="alert alert-secondary">
-        <p class="lead">Current challenge: <span id="current-digits">#</span>
+        <p class="lead">Current: <span id="sequence-length">4</span>
         </p>
-        <p class="lead">Top this session: <span id="top-digits">#</span></p>
+        <p class="lead">Top: <span id="top-digits">0</span></p>
+        <p class="lead">Misses: <span id="missed">0</span></p>
       </div>
     </div>
   </div>
@@ -131,5 +133,8 @@
     </div>
   </div>
 </main>
+
+<script src="logic/digit-span-test.js"></script>
+<script src="adapter/digit-span-test.js"></script>
 </body>
 </html>

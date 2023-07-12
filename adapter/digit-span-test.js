@@ -2,8 +2,8 @@
 const currentDigit = document.getElementById("current-digit");
 const lengthDiv = document.getElementById("sequence-length");
 const userInput = document.getElementById("primary-input");
-const primaryButton = document.getElementById("primary-btn");
-const repeatButton = document.getElementById("repeat-btn");
+const primaryButton = document.getElementById("start-button");
+const repeatButton = document.getElementById("retry-button");
 const infoDiv = document.getElementById("info-output");
 const progress = document.getElementById("primary-progress-bar");
 const speedInput = document.getElementById("speed-millis");
@@ -11,16 +11,20 @@ const startingLengthInput = document.getElementById("starting-length");
 const audioEnabledCheckbox = document.getElementById("audio-enabled");
 const visualEnabledCheckbox = document.getElementById("visual-enabled");
 const testModeSelect = document.getElementById("test-mode");
+const topScore = document.getElementById("top-digits");
+const missed = document.getElementById("missed");
 
 // digit test object
 let test = null;
 let digitIndex = 0;
 let speed = 1000; // milliseconds between digits
-let defaultStartingLength = 4;
-let lastLength = 0;
+let startingLength = startingLengthInput.value;
+let currentLength = startingLength;
 let audioEnabled = true;
 let visualEnabled = true;
 let testMode = DigitSpanTest.modes.DEFAULT;
+let best = 0;
+let misses = 0;
 
 let state = "loaded"; // possible states: ["loaded", "started", "success"]
 
@@ -42,8 +46,8 @@ function nextLength(startingLength) {
     test.next();
   }
 
-  lastLength = test.getSequence().length;
-  updateSequenceLength();
+  currentLength = test.getSequence().length;
+  lengthDiv.innerText = currentLength;
   setDisabled(userInput, true);
   setDisabled(primaryButton, true);
   setDisabled(repeatButton, true);
@@ -104,17 +108,29 @@ function showNextDigit() {
 }
 
 function failed() {
-  let addendum = ".";
-  const currentSequence = test.getSequence();
+  const currentSequence = test.getSequence().join(' ');
+  let retry = "";
 
-  if (currentSequence.length !== startingLengthInput) {
-    addendum = `, or, press "q" to try ${currentSequence.length} digits again.`;
+  misses++;
+
+  if (currentLength > startingLengthInput.value) {
+    retry = ` "+" or "-" to retry ${currentSequence.length} digits, or press`;
+
+    currentLength = currentLength - 1;
+    primaryButton.innerText = "Continue";
+  } else {
+    primaryButton.innerText = "Restart";
   }
 
   infoDiv.classList.replace("alert-primary", "alert-secondary");
-  infoDiv.innerHTML = `Not quite right. The sequence shown was ${currentSequence}, and you should have entered "${test.getTargetSequence(
-    testMode
-  )}". Press enter to start over${addendum}`;
+  infoDiv.innerText = `The sequence was ${currentSequence}`;
+
+  if (testMode !== 0) {
+    infoDiv.innerText += `, you should have entered "${test.getTargetSequence(testMode)}"`
+  }
+
+  infoDiv.innerText += `. Press${retry} enter to continue.`
+  missed.innerText = `${misses}`;
 
   setDisabled(userInput, true);
   setDisabled(primaryButton, false);
@@ -123,8 +139,6 @@ function failed() {
   primaryButton.focus();
   state = "loaded";
   test = null;
-  primaryButton.innerHTML = "Restart";
-  setDisabled(repeatButton, false);
 }
 
 function checkUserInput(input) {
@@ -143,6 +157,7 @@ function checkUserInput(input) {
       setDisabled(repeatButton, false);
       primaryButton.focus();
       setDisabled(userInput, true);
+      updateSequenceLength()
     }
   } else {
     failed();
@@ -153,17 +168,15 @@ function checkUserInput(input) {
 primaryButton.addEventListener("click", () => {
   switch (state) {
     case "loaded":
-      nextLength(defaultStartingLength);
-      break;
     case "success":
-      nextLength(defaultStartingLength);
+      nextLength(currentLength);
       break;
   }
 });
 
 repeatButton.addEventListener("click", () => {
   test = null;
-  nextLength(lastLength);
+  nextLength(currentLength++);
 });
 
 userInput.addEventListener("keydown", (event) => {
@@ -174,7 +187,11 @@ userInput.addEventListener("keydown", (event) => {
 });
 
 document.addEventListener("keydown", (event) => {
-  if (event.key === "q") {
+  console.log(event.key);
+
+  const retryKeys = new Set(['+', '-', '*', '/', 'q'])
+
+  if (retryKeys.has(event.key)) {
     repeatButton.click();
   }
 });
@@ -216,8 +233,9 @@ speedInput.addEventListener("change", () => {
 // sequence length after restart
 startingLengthInput.addEventListener("change", () => {
   const newVal = parseInt(startingLengthInput.value);
+
   if (newVal > 0) {
-    defaultStartingLength = newVal;
+    startingLength = newVal;
   }
 });
 
@@ -232,15 +250,26 @@ function setDisabled(element, disabled) {
   element.removeAttribute("disabled");
 }
 
-function updateSequenceLength() {
+function updateSequenceLength(completed = null) {
   if (test === null) {
-    return (lengthDiv.innerHTML = " ");
+    return (lengthDiv.innerText = "");
   }
-  lengthDiv.innerHTML = `Current challenge: ${
-    test.getSequence().length
-  } digits`;
+
+  const current = test.getSequence().length;
+
+  if (current > best) {
+    best = current;
+    topScore.innerText = `${best}`;
+  }
+
+  lengthDiv.innerText = current;
 }
 
 function clearInput() {
   userInput.value = "";
 }
+
+document.addEventListener('load', () => {
+  startingLength = startingLengthInput.value;
+  currentLength = startingLength;
+})
