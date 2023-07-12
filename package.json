@@ -1,0 +1,19 @@
+{
+  "name": "come-on-brain",
+  "version": "1.0.0",
+  "description": "Exercises for a TBI brain",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gesa/come-on-brain.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gesa/come-on-brain/issues"
+  },
+  "homepage": "https://github.com/gesa/come-on-brain#readme",
+  "dependencies": {
+    "eslint": "^8.44.0",
+    "prettier": "^3.0.0"
+  }
+}
