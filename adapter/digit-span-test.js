@@ -27,7 +27,7 @@ let state = "loaded"; // possible states: ["loaded", "started", "success"]
 const audio = {};
 
 for (let i = 0; i < 10; i++) {
-  audio[`${i}`] = new Audio(`../src/audio/numbers/${i}.mp3`);
+  audio[`${i}`] = new Audio(`../audio/${i}.mp3`);
 }
 
 function nextLength(startingLength) {
